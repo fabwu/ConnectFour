@@ -22,6 +22,8 @@ import java.util.logging.Logger;
  * @author R. Ritter <reto.ritter@stud.hslu.ch>
  * @author D. Niederberger <david.niederberger@stud.hslu.ch>
  * @author F. Wüthrich <fabian.wuethrich.01@stud.hslu.ch>
+ * 
+ * Testkommentar
  *
  * @version 1.0
  */
