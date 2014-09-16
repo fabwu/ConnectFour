@@ -106,35 +106,41 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
      * @param arg
      */
     @Override
-    public void update(Observable o, Object arg) {
-        GameModel model = (GameModel) o;
-        int[][] matrix = model.getMatrix();
-        Opponent actualPlayer = model.getActualPlayer();
-        Opponent player1 = model.getPlayer1();
-        Opponent player2 = model.getPlayer2();
+    public void update(final Observable o, Object arg) {
+        SwingUtilities.invokeLater(new Runnable() {
 
-        jPanelPlayground.removeAll();
+            @Override
+            public void run() {
+                GameModel model = (GameModel) o;
+                int[][] matrix = model.getMatrix();
+                Opponent actualPlayer = model.getActualPlayer();
+                Opponent player1 = model.getPlayer1();
+                Opponent player2 = model.getPlayer2();
 
-        for (int row = 0; row < 6; row++) {
-            for (int col = 0; col < 7; col++) {
-                jPanelPlayground.add(new Kreis(matrix[row][col]));
+                jPanelPlayground.removeAll();
+
+                for (int row = 0; row < 6; row++) {
+                    for (int col = 0; col < 7; col++) {
+                        jPanelPlayground.add(new Kreis(matrix[row][col]));
+                    }
+                }
+
+                if (actualPlayer.getId() != player1.getId()) {
+                    if (!(player2 instanceof LocalPlayer)) {
+                        disableColumnButtons();
+                    }
+                    jLabelGegner.setBorder(borderline);
+                    jLabelSpieler.setBorder(null);
+                } else {
+                    if (!(player2 instanceof LocalPlayer)) {
+                        enableColumnButtons();
+                    }
+
+                    jLabelSpieler.setBorder(borderline);
+                    jLabelGegner.setBorder(null);
+                }
             }
-        }
-
-        if (actualPlayer.getId() != player1.getId()) {
-            if (!(player2 instanceof LocalPlayer)) {
-                disableColumnButtons();
-            }
-            jLabelGegner.setBorder(borderline);
-            jLabelSpieler.setBorder(null);
-        } else {
-            if (!(player2 instanceof LocalPlayer)) {
-                enableColumnButtons();
-            }
-
-            jLabelSpieler.setBorder(borderline);
-            jLabelGegner.setBorder(null);
-        }
+        });
     }
 
     /**
