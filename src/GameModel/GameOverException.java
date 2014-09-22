@@ -1,6 +1,6 @@
 package GameModel;
 
-import Opponent.Opponent;
+import Player.Player;
 
 /**
  * ConnectFour GameOverException

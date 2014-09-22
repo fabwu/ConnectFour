@@ -1,4 +1,4 @@
-package Opponent;
+package Player;
 
 import java.io.Serializable;
 

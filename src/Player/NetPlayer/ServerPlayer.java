@@ -1,7 +1,7 @@
-package Opponent.NetPlayer;
+package Player.NetPlayer;
 
 import GameModel.GameModel;
-import Opponent.Opponent;
+import Player.Player;
 import java.io.*;
 import java.net.Socket;
 import java.util.Observable;
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @version 1.0
  */
-public class ServerPlayer extends Opponent implements Observer {
+public class ServerPlayer extends Player implements Observer {
 
     //FIELDS--------------------------------------------------------------------
     private transient ObjectOutputStream out;

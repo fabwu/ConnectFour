@@ -2,11 +2,11 @@ package GameControl;
 
 import GUI.ConnectFourGUI;
 import GameModel.*;
-import Opponent.AiPlayer;
-import Opponent.LocalPlayer;
-import Opponent.NetPlayer.ClientPlayer;
-import Opponent.NetPlayer.ServerPlayer;
-import Opponent.Opponent;
+import Player.AiPlayer;
+import Player.LocalPlayer;
+import Player.NetPlayer.ClientPlayer;
+import Player.NetPlayer.ServerPlayer;
+import Player.Player;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
@@ -126,7 +126,7 @@ public class GameControl implements Runnable {
      */
     private void createLoadGame(GameModel tempModel) {
         LocalPlayer player1 = (LocalPlayer) tempModel.getPlayer1();
-        Opponent player2 = tempModel.getPlayer2();
+        Player player2 = tempModel.getPlayer2();
 
         // Gamegui übergeben weil diese nicht serialisiert wird
         player1.setGameui(this.gamegui);

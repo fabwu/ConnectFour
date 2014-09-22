@@ -1,4 +1,4 @@
-package Opponent;
+package Player;
 
 import GameModel.GameModel;
 import java.util.Observable;
@@ -16,7 +16,7 @@ import java.util.Observer;
  *
  * @version 1.0
  */
-public class AiPlayer extends Opponent implements Observer {
+public class AiPlayer extends Player implements Observer {
 
     //FIELDS--------------------------------------------------------------------
     private int[][] matrix;

@@ -1,6 +1,6 @@
 package GameModel;
 
-import Opponent.Opponent;
+import Player.Player;
 import java.io.Serializable;
 import java.util.Observable;
 
@@ -20,8 +20,8 @@ public class GameModel extends Observable implements Serializable {
 
     //FIELDS--------------------------------------------------------------------
     private int[][] matrix;
-    private Opponent player1, player2;
-    private Opponent actualPlayer;  //Spieler der aktuell an der Reihe ist (1 oder 2)
+    private Player player1, player2;
+    private Player actualPlayer;  //Spieler der aktuell an der Reihe ist (1 oder 2)
     private final int rowLength;
     private final int colLength;
     private final int winLimit;
@@ -49,7 +49,7 @@ public class GameModel extends Observable implements Serializable {
      * @param player1 Spieler 1 kann ein lokaler, AI oder NetPlayer sein
      * @param player2 Spieler 2 kann ein AI oder NetPlayer sein
      */
-    public void initModel(Opponent player1, Opponent player2) {
+    public void initModel(Player player1, Player player2) {
         setChanged();
         this.matrix = new int[this.rowLength][this.colLength];
 
@@ -68,7 +68,7 @@ public class GameModel extends Observable implements Serializable {
      * @param matrix Matrix die das Spiel abbildet
      * @param actualPlayer Spieler der an der Reihe ist.
      */
-    public void initModel(Opponent player1, Opponent player2, int[][] matrix, Opponent actualPlayer) {
+    public void initModel(Player player1, Player player2, int[][] matrix, Player actualPlayer) {
         setChanged();
         this.matrix = matrix;
 
@@ -163,15 +163,15 @@ public class GameModel extends Observable implements Serializable {
         return matrix;
     }
 
-    public Opponent getPlayer1() {
+    public Player getPlayer1() {
         return player1;
     }
 
-    public Opponent getPlayer2() {
+    public Player getPlayer2() {
         return player2;
     }
 
-    public Opponent getActualPlayer() {
+    public Player getActualPlayer() {
         return actualPlayer;
     }
 

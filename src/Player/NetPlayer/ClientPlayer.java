@@ -1,4 +1,4 @@
-package Opponent.NetPlayer;
+package Player.NetPlayer;
 
 import GUI.ConnectFourGUI;
 import GameModel.GameModel;

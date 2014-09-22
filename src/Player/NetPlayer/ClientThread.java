@@ -1,4 +1,4 @@
-package Opponent.NetPlayer;
+package Player.NetPlayer;
 
 import GameControl.GameControl;
 import java.io.IOException;

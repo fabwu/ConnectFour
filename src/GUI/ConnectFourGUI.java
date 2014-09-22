@@ -2,10 +2,10 @@ package GUI;
 
 import GameControl.GameControl;
 import GameModel.GameModel;
-import Opponent.LocalPlayer;
-import Opponent.NetPlayer.ClientThread;
-import Opponent.NetPlayer.ServerThread;
-import Opponent.Opponent;
+import Player.LocalPlayer;
+import Player.NetPlayer.ClientThread;
+import Player.NetPlayer.ServerThread;
+import Player.Player;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -113,9 +113,9 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
             public void run() {
                 GameModel model = (GameModel) o;
                 int[][] matrix = model.getMatrix();
-                Opponent actualPlayer = model.getActualPlayer();
-                Opponent player1 = model.getPlayer1();
-                Opponent player2 = model.getPlayer2();
+                Player actualPlayer = model.getActualPlayer();
+                Player player1 = model.getPlayer1();
+                Player player2 = model.getPlayer2();
 
                 jPanelPlayground.removeAll();
 

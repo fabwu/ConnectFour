@@ -1,4 +1,4 @@
-package Opponent;
+package Player;
 
 import GUI.ConnectFourGUI;
 import java.awt.event.ActionEvent;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  *
  * @version 1.0
  */
-public class LocalPlayer extends Opponent implements ActionListener {
+public class LocalPlayer extends Player implements ActionListener {
 
     //FIELDS--------------------------------------------------------------------
     private int col;
