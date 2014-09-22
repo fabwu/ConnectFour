@@ -318,37 +318,6 @@ public class GameControl implements Runnable {
 
     }
 
-    //PRIVATE METHODS-----------------------------------------------------------
-    /*
-     * Erstellt ein Spiel Computer gegen Computer
-     */
-    private void createComputerComputerGame() {
-        // Computerspieler erstellen
-        AiPlayer aiPlayer1 = new AiPlayer(1);
-
-        // Computerspieler erstellen
-        AiPlayer aiPlayer2 = new AiPlayer(2);
-
-        // Listener registrieren
-        this.gamemodel.addObserver(aiPlayer1);
-        this.gamemodel.addObserver(aiPlayer2);
-        this.gamemodel.addObserver(gamegui);
-
-        // Model initialisieren (Neues Spiel)
-        this.gamemodel.initModel(aiPlayer1, aiPlayer2);
-
-        // Buttons deaktivieren
-        this.gamegui.disableColumnButtons();
-        this.gamegui.disableSaveButton();
-
-        // GUI sichtbar machen
-        this.gamegui.setVisible(true);
-
-        // Spiel starten
-        this.game = new Thread(this, "Game-Cycle (ComputerComputer)");
-        this.game.start();
-    }
-
     /*
      *  Unterbricht den Spielezyklus
      */
