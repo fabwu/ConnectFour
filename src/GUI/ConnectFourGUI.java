@@ -150,6 +150,9 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
                         jPanelPlayground.add(new Kreis(matrix[row][col]));
                     }
                 }
+                
+                revalidate();
+                repaint();
 
                 if (actualPlayer.getId() != player1.getId()) {
                     if (!(player2 instanceof LocalPlayer)) {
