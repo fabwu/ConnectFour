@@ -521,7 +521,7 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
     }
 
     private void jMenuItemServerActionPerformed(java.awt.event.ActionEvent evt) {
-        final ServerThread serverThread = new ServerThread(this.control);
+        final ServerThread serverThread = new ServerThread();
 
         final WaitForOtherPlayerDialog dialog = new WaitForOtherPlayerDialog(this, "Auf Spieler warten...");
 

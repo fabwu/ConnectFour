@@ -28,7 +28,6 @@ public class WaitForOtherPlayerDialog extends JDialog{
 
     //FIELDS--------------------------------------------------------------------
     private final JProgressBar progressBar;
-    private final JButton exitButton;
     private final JLabel lblIPAdress;
 
     private String getLocalIPAdresses()
@@ -62,13 +61,11 @@ public class WaitForOtherPlayerDialog extends JDialog{
         */
         
         this.progressBar = new JProgressBar();
-        this.exitButton = new JButton("Abbrechen");
         this.lblIPAdress = new JLabel(getLocalIPAdresses());
         
         this.progressBar.setIndeterminate(true);
 
         setLayout(new BorderLayout());
-        
         
         add(this.progressBar,BorderLayout.SOUTH);
         add(this.lblIPAdress,BorderLayout.NORTH);

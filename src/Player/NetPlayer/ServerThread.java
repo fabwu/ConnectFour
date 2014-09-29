@@ -24,10 +24,10 @@ import java.util.logging.Logger;
  */
 public class ServerThread extends Thread {
 
-    private ServerSocket serverSocket; 
+    private ServerSocket serverSocket;
     private final ArrayList<ActionListener> listeners;
 
-    public ServerThread(GameControl control) {
+    public ServerThread() {
         super("Server Thread");
         listeners = new ArrayList<>();
     }
@@ -56,6 +56,7 @@ public class ServerThread extends Thread {
                 a.actionPerformed(new ActionEvent(clientSocket, 0, "Client gefunden"));
             }
         } catch (IOException ex) {
+            //ToDo: Logger
         }
     }
 }
