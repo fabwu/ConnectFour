@@ -559,7 +559,7 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
     }
 
     private void jMenuItemClientActionPerformed(java.awt.event.ActionEvent evt) {
-        String hostname = JOptionPane.showInputDialog(null, "Adresse des Servers:", "localhost");
+        String hostname = JOptionPane.showInputDialog(null, "Adresse des Servers:");
         if (!hostname.equals("")) {
             final WaitForOtherPlayerDialog dialog = new WaitForOtherPlayerDialog(this, "Auf Server warten...");
             final ClientThread clientThread = new ClientThread(this.control, dialog, hostname);
