@@ -10,6 +10,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
@@ -150,7 +154,7 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
                         jPanelPlayground.add(new Kreis(matrix[row][col]));
                     }
                 }
-                
+
                 revalidate();
                 repaint();
 
@@ -517,21 +521,33 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
     }
 
     private void jMenuItemServerActionPerformed(java.awt.event.ActionEvent evt) {
-        final WaitForPlayerDialog dialog = new WaitForPlayerDialog(this, "Auf Spieler warten...");
-        final ServerThread serverThread = new ServerThread(this.control, dialog);
+        final ServerThread serverThread = new ServerThread(this.control);
 
-        dialog.addActionListener(new ActionListener() {
+        final WaitForOtherPlayerDialog dialog = new WaitForOtherPlayerDialog(this, "Auf Spieler warten...");
+
+        dialog.addWindowListener(new WindowAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void windowClosing(WindowEvent e) {
                 System.out.println("Thread abbrechen");
                 serverThread.exit();
-                dialog.setVisible(false);
+            }
+        });
+
+        serverThread.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    control.createServerGame((Socket) e.getSource());
+                } catch (Exception ex) {
+                    //ToDo: Logger
+                }
             }
         });
 
         serverThread.start();
 
         dialog.setVisible(true);
+
     }
 
     private void jMenuItemComputerActionPerformed(java.awt.event.ActionEvent evt) {
@@ -545,14 +561,14 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
     private void jMenuItemClientActionPerformed(java.awt.event.ActionEvent evt) {
         String hostname = JOptionPane.showInputDialog(null, "Adresse des Servers:", "localhost");
         if (!hostname.equals("")) {
-            final WaitForPlayerDialog dialog = new WaitForPlayerDialog(this, "Auf Server warten...");
+            final WaitForOtherPlayerDialog dialog = new WaitForOtherPlayerDialog(this, "Auf Server warten...");
             final ClientThread clientThread = new ClientThread(this.control, dialog, hostname);
 
-            dialog.addActionListener(new ActionListener() {
+            dialog.addWindowListener(new WindowAdapter() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void windowClosing(WindowEvent e) {
+                    System.out.println("Thread abbrechen");
                     clientThread.exit();
-                    dialog.setVisible(false);
                 }
             });
 

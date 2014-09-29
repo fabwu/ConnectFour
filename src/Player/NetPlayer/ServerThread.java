@@ -1,12 +1,14 @@
 package Player.NetPlayer;
 
 import GameControl.GameControl;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 
 /**
  * ConnectFour ServerThread
@@ -22,14 +24,12 @@ import javax.swing.JDialog;
  */
 public class ServerThread extends Thread {
 
-    private final GameControl control;
-    private final JDialog panel;
-    private ServerSocket serverSocket;
+    private ServerSocket serverSocket; 
+    private final ArrayList<ActionListener> listeners;
 
-    public ServerThread(GameControl control, JDialog panel) {
+    public ServerThread(GameControl control) {
         super("Server Thread");
-        this.control = control;
-        this.panel = panel;
+        listeners = new ArrayList<>();
     }
 
     public void exit() {
@@ -42,15 +42,19 @@ public class ServerThread extends Thread {
         }
     }
 
+    public void addActionListener(ActionListener a) {
+        listeners.add(a);
+    }
+
     @Override
     public void run() {
         try {
             this.serverSocket = new ServerSocket(GameControl.PORT);
             Socket clientSocket = serverSocket.accept();
 
-            this.panel.setVisible(false);
-
-            this.control.createServerGame(clientSocket);
+            for (ActionListener a : listeners) {
+                a.actionPerformed(new ActionEvent(clientSocket, 0, "Client gefunden"));
+            }
         } catch (IOException ex) {
         }
     }

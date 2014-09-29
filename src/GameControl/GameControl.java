@@ -278,12 +278,10 @@ public class GameControl implements Runnable {
      */
     @Override
     public void run() {
-        int col;
-
+        
         while (!Thread.interrupted()) {
             try {
-                col = gamemodel.getActualPlayer().getNextMove();
-                gamemodel.insertCellContent(col);
+                gamemodel.insertCellContent(gamemodel.getActualPlayer().getNextMove());
                 gamemodel.changePlayer();
             } catch (InvalidMoveException ex) {
                 gamemodel.setInvalid(true);
