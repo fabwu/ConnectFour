@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * ConnectFour ServerThread
@@ -24,7 +22,6 @@ import java.util.logging.Logger;
  */
 public class ServerThread extends Thread {
 
-    private ServerSocket serverSocket;
     private final ArrayList<ActionListener> listeners;
 
     public ServerThread() {
@@ -32,24 +29,14 @@ public class ServerThread extends Thread {
         listeners = new ArrayList<>();
     }
 
-    public void exit() {
-        if (this.serverSocket instanceof ServerSocket) {
-            try {
-                this.serverSocket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    public void addActionListener(ActionListener a) {
+    public void addSuccessListener(ActionListener a) {
         listeners.add(a);
     }
 
     @Override
     public void run() {
         try {
-            this.serverSocket = new ServerSocket(GameControl.PORT);
+            ServerSocket serverSocket = new ServerSocket(GameControl.PORT);
             Socket clientSocket = serverSocket.accept();
 
             for (ActionListener a : listeners) {

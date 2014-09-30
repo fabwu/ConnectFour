@@ -278,7 +278,7 @@ public class GameControl implements Runnable {
      */
     @Override
     public void run() {
-        
+
         while (!Thread.interrupted()) {
             try {
                 gamemodel.insertCellContent(gamemodel.getActualPlayer().getNextMove());
@@ -303,7 +303,6 @@ public class GameControl implements Runnable {
 
                     gamemodel.getPlayer1().youLose();
                 }
-
                 break;
             } catch (DrawException ex) {
                 gamemodel.setDraw(true);

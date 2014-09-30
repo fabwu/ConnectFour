@@ -1,11 +1,11 @@
 package Player.NetPlayer;
 
 import GameControl.GameControl;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import javax.swing.JDialog;
+import java.util.ArrayList;
 
 /**
  * ConnectFour ClientThread
@@ -22,36 +22,26 @@ import javax.swing.JDialog;
 public class ClientThread extends Thread {
 
     //FIELDS--------------------------------------------------------------------
-    private final GameControl control;
-    private final JDialog dialog;
-    private Socket socket;
     private final String hostname;
-    private boolean exit;
-    private boolean isConnected;
+    private final ArrayList<ActionListener> listeners;
 
     //CONSTRUCTORS--------------------------------------------------------------
     /**
      * Erstellt einen neuen Thread zum Verbindungsaufbau
      *
-     * @param control
-     * @param panel
-     * @param hostname
+     *
+     * @param hostname Der Hostname (oder IP Adresse) mit dem Verbunden werden
+     * soll.
      */
-    public ClientThread(GameControl control, JDialog panel, String hostname) {
+    public ClientThread(String hostname) {
         super("Client Thread");
 
-        this.control = control;
-        this.dialog = panel;
         this.hostname = hostname;
+        listeners = new ArrayList<>();
     }
 
-    //PUBLIC METHODS------------------------------------------------------------
-    /**
-     * Bricht den Verbindunsaufbau ab
-     */
-    public void exit() {
-        this.exit = true;
-        this.dialog.setVisible(false);
+    public void addSuccessListener(ActionListener a) {
+        listeners.add(a);
     }
 
     /**
@@ -59,25 +49,16 @@ public class ClientThread extends Thread {
      */
     @Override
     public void run() {
-        try {
-            do {
-                try {
-                    this.socket = new Socket(hostname, GameControl.PORT);
-                    this.isConnected = true;
-                } catch (ConnectException ex) {
-                    System.out.println("Versuche nochmals einen Server zu finden");
-                }
-            } while (!this.isConnected && !this.exit);
-
-            if (this.isConnected) {
-                this.dialog.setVisible(false);
-                System.out.println(this.socket instanceof Socket);
-                this.control.createClientGame(this.socket);
+        Socket clientSocket = null;
+        while (clientSocket == null) {
+            try {
+                clientSocket = new Socket(hostname, GameControl.PORT);
+            } catch (IOException ex) {
+                //ToDo: Logger                 Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (UnknownHostException ex) {
-            // 
-        } catch (IOException ex) {
-
+        }
+        for (ActionListener a : listeners) {
+            a.actionPerformed(new ActionEvent(clientSocket, 0, "Mit Server verbunden"));
         }
     }
 }

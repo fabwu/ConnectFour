@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
@@ -64,6 +63,7 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
     private static final String FILE_EXTENSION = "dat";
     private final JFileChooser jFileChooser;
     private final Border borderline;
+    private String lastHost;
 
     //CONSTRUCTORS--------------------------------------------------------------
     /**
@@ -89,6 +89,7 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
         // FileChooser erstellen
         this.jFileChooser = new CustomFileChooser(FILE_EXTENSION);
 
+        lastHost = "";
     }
 
     //PUBLIC METHODS------------------------------------------------------------
@@ -520,6 +521,12 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
         }
     }
 
+    /**
+     * Wird aufgerufen wenn ein neues Netzwerkspiel als Server gestartet werden
+     * osll.
+     *
+     * @param evt
+     */
     private void jMenuItemServerActionPerformed(java.awt.event.ActionEvent evt) {
         final ServerThread serverThread = new ServerThread();
 
@@ -529,11 +536,11 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.println("Thread abbrechen");
-                serverThread.exit();
+                serverThread.interrupt();
             }
         });
 
-        serverThread.addActionListener(new ActionListener() {
+        serverThread.addSuccessListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -543,6 +550,8 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
                 }
             }
         });
+
+        serverThread.addSuccessListener(dialog);
 
         serverThread.start();
 
@@ -558,19 +567,38 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
         this.control.createLocalLocalGame();
     }
 
+    /**
+     * Wird aufgerufen wenn ein neues Netzwerkpsiel als Client gestartet werden
+     * soll.
+     */
     private void jMenuItemClientActionPerformed(java.awt.event.ActionEvent evt) {
-        String hostname = JOptionPane.showInputDialog(null, "Adresse des Servers:", "localhost");
-        if (!hostname.equals("")) {
+        String hostname = JOptionPane.showInputDialog(null, "Adresse des Servers:", lastHost);
+
+        if (hostname != null && !hostname.equals("")) {
+            lastHost = hostname;
             final WaitForOtherPlayerDialog dialog = new WaitForOtherPlayerDialog(this, "Auf Server warten...");
-            final ClientThread clientThread = new ClientThread(this.control, dialog, hostname);
+            final ClientThread clientThread = new ClientThread(hostname);
 
             dialog.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
                     System.out.println("Thread abbrechen");
-                    clientThread.exit();
+                    clientThread.interrupt();
                 }
             });
+
+            clientThread.addSuccessListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        control.createClientGame((Socket) e.getSource());
+                    } catch (Exception ex) {
+                        //ToDo: Logger
+                    }
+                }
+            });
+
+            clientThread.addSuccessListener(dialog);
 
             clientThread.start();
 

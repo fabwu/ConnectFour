@@ -2,8 +2,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -24,12 +24,13 @@ import java.util.logging.Logger;
  *
  * @version 1.0
  */
-public class WaitForOtherPlayerDialog extends JDialog{
+public class WaitForOtherPlayerDialog extends JDialog implements ActionListener {
 
     //FIELDS--------------------------------------------------------------------
     private final JProgressBar progressBar;
     private final JLabel lblIPAdress;
 
+    
     private String getLocalIPAdresses()
     {
         String ipadress = "";
@@ -55,11 +56,7 @@ public class WaitForOtherPlayerDialog extends JDialog{
      */
     public WaitForOtherPlayerDialog(Frame owner, String title) {
         super(owner, title, true);       
-        /*
-        * Hier werden alle IP Adressen des PCs herausgefunden und im String
-        * ipadress im HTML Format abgelegt.
-        */
-        
+
         this.progressBar = new JProgressBar();
         this.lblIPAdress = new JLabel(getLocalIPAdresses());
         
@@ -72,5 +69,15 @@ public class WaitForOtherPlayerDialog extends JDialog{
         
         setLocationRelativeTo(owner);
         pack();
+        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getID()==0)
+        {
+            this.setVisible(false);
+        }
     }
 }
