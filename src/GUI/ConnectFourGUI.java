@@ -3,7 +3,7 @@ package GUI;
 import GameControl.GameControl;
 import GameModel.GameModel;
 import Player.LocalPlayer;
-import Player.NetPlayer.ClientThread;
+import Player.NetPlayer.ServerSearchThread;
 import Player.NetPlayer.ClientSearchThread;
 import Player.Player;
 import java.awt.Color;
@@ -578,7 +578,7 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
         if (hostname != null && !hostname.equals("")) {
             lastHost = hostname;
             final WaitForOtherPlayerDialog dialog = new WaitForOtherPlayerDialog(this, "Auf Server warten...");
-            final ClientThread clientThread = new ClientThread(hostname);
+            final ServerSearchThread clientThread = new ServerSearchThread(hostname);
 
             dialog.addWindowListener(new WindowAdapter() {
                 @Override

@@ -8,9 +8,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * ConnectFour ClientThread
- *
- * Thread zum Verbindungsaufbau mit einem Server
+ * ConnectFour ServerSearchThread
+
+ Thread zum Verbindungsaufbau mit einem Server
  *
  * @author S. Winterberger <stefan.winterberger@stud.hslu.ch>
  * @author R. Ritter <reto.ritter@stud.hslu.ch>
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * 
  * @version 1.0
  */
-public class ClientThread extends Thread {
+public class ServerSearchThread extends Thread {
 
     //FIELDS--------------------------------------------------------------------
     private final String hostname;
@@ -34,7 +34,7 @@ public class ClientThread extends Thread {
      * @param hostname Der Hostname (oder IP Adresse) mit dem Verbunden werden
      * soll.
      */
-    public ClientThread(String hostname) {
+    public ServerSearchThread(String hostname) {
         super("Client Thread");
 
         this.hostname = hostname;
@@ -55,7 +55,7 @@ public class ClientThread extends Thread {
             try {
                 clientSocket = new Socket(hostname, GameControl.PORT);
             } catch (IOException ex) {
-                //ToDo: Logger                 Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                //ToDo: Logger                 Logger.getLogger(ServerSearchThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         for (ActionListener a : listeners) {
