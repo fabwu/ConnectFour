@@ -16,7 +16,8 @@ import java.util.ArrayList;
  * @author R. Ritter <reto.ritter@stud.hslu.ch>
  * @author D. Niederberger <david.niederberger@stud.hslu.ch>
  * @author F. Wüthrich <fabian.wuethrich.01@stud.hslu.ch>
- *
+ * @author S. Erni <simon.erni@stud.hslu.ch>
+ * 
  * @version 1.0
  */
 public class ClientThread extends Thread {
