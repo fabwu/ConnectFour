@@ -46,7 +46,6 @@ public class LocalPlayer extends Player implements ActionListener {
             try {
                 wait();
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
             }
         }
         return this.col;

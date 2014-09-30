@@ -51,32 +51,6 @@ public class GameControl implements Runnable {
 
     //PUBLIC METHODS------------------------------------------------------------
     /**
-     * Startet ein neues Spiel
-     *
-     * @param typ Spieltyp 0=Local - Computer, 1=Local - Local, default=Local -
-     * Local;
-     */
-    public void newGame(int typ) {
-        interruptGameCycle();
-
-        switch (typ) {
-            //Computer
-            case 0:
-                createLocalComputerGame();
-                break;
-
-            //Lokales Spiel
-            case 1:
-                createLocalLocalGame();
-                break;
-
-            default:
-                createLocalComputerGame();
-                break;
-        }
-    }
-
-    /**
      * Speichert das Spiel, in dem das GameModel serialisiert und in eine Datei
      * abgelegt wird.
      *
@@ -162,6 +136,8 @@ public class GameControl implements Runnable {
      * Erstellt ein Spiel gegen einen Spieler am gleichen Bildschirm
      */
     public void createLocalLocalGame() {
+        interruptGameCycle();
+        
         // Lokaler Spieler erstellen
         LocalPlayer localPlayer1 = new LocalPlayer(1, this.gamegui);
 
@@ -195,6 +171,8 @@ public class GameControl implements Runnable {
      * Erstellt ein Spiel gegen den Computer
      */
     public void createLocalComputerGame() {
+        interruptGameCycle();
+        
         // Lokaler Spieler erstellen
         LocalPlayer localPlayer = new LocalPlayer(1, this.gamegui);
 
@@ -228,7 +206,8 @@ public class GameControl implements Runnable {
      * @param clientSocket
      */
     public void createServerGame(Socket clientSocket) {
-
+        interruptGameCycle();
+        
         // Lokaler Spieler erstellen
         LocalPlayer localPlayer = new LocalPlayer(1, this.gamegui);
 
@@ -262,6 +241,8 @@ public class GameControl implements Runnable {
      * @param serverSocket
      */
     public void createClientGame(Socket serverSocket) {
+        interruptGameCycle();
+        
         // Client erstellen
         ClientPlayer client = new ClientPlayer(serverSocket, this.gamegui);
 
@@ -280,7 +261,7 @@ public class GameControl implements Runnable {
     @Override
     public void run() {
 
-        while (!Thread.interrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 gamemodel.insertCellContent(gamemodel.getActualPlayer().getNextMove());
                 gamemodel.changePlayer();
@@ -310,7 +291,7 @@ public class GameControl implements Runnable {
                 gamemodel.notifyObservers();
                 gamemodel.getPlayer1().draw();
                 gamemodel.getPlayer2().draw();
-
+                break;
             }
         }
 
