@@ -29,7 +29,7 @@ public class ClientSearchThread extends Thread {
     private ServerSocket serverSocket;
     
     public ClientSearchThread() {
-        super("Server Thread");
+        super("Client Search Thread");
         listeners = new ArrayList<>();
     }
 

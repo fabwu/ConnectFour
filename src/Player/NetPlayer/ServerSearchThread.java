@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * ConnectFour ClientThread
+ * ConnectFour ServerSearchThread
  *
  * Thread zum Verbindungsaufbau mit einem Server
  *
@@ -17,10 +17,10 @@ import java.util.ArrayList;
  * @author D. Niederberger <david.niederberger@stud.hslu.ch>
  * @author F. Wüthrich <fabian.wuethrich.01@stud.hslu.ch>
  * @author S. Erni <simon.erni@stud.hslu.ch>
- * 
+ *
  * @version 1.0
  */
-public class ClientThread extends Thread {
+public class ServerSearchThread extends Thread {
 
     //FIELDS--------------------------------------------------------------------
     private final String hostname;
@@ -34,8 +34,8 @@ public class ClientThread extends Thread {
      * @param hostname Der Hostname (oder IP Adresse) mit dem Verbunden werden
      * soll.
      */
-    public ClientThread(String hostname) {
-        super("Client Thread");
+    public ServerSearchThread(String hostname) {
+        super("Server Search Thread");
 
         this.hostname = hostname;
         listeners = new ArrayList<>();
@@ -51,15 +51,17 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         Socket clientSocket = null;
-        while (clientSocket == null) {
+        while (clientSocket == null && !isInterrupted()) {
             try {
                 clientSocket = new Socket(hostname, GameControl.PORT);
             } catch (IOException ex) {
-                //ToDo: Logger                 Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                //ToDo: Logger                 Logger.getLogger(ServerSearchThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        for (ActionListener a : listeners) {
-            a.actionPerformed(new ActionEvent(clientSocket, 0, "Mit Server verbunden"));
+        if (clientSocket != null) {
+            for (ActionListener a : listeners) {
+                a.actionPerformed(new ActionEvent(clientSocket, 0, "Mit Server verbunden"));
+            }
         }
     }
 }
