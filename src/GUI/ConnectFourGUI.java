@@ -583,7 +583,6 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
             dialog.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    System.out.println("Thread abbrechen");
                     clientThread.interrupt();
                 }
             });
