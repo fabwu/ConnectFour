@@ -23,12 +23,12 @@ import java.util.logging.Logger;
  * 
  * @version 1.0
  */
-public class ServerThread extends Thread {
+public class ClientSearchThread extends Thread {
 
     private final ArrayList<ActionListener> listeners;
     private ServerSocket serverSocket;
     
-    public ServerThread() {
+    public ClientSearchThread() {
         super("Server Thread");
         listeners = new ArrayList<>();
     }
@@ -44,7 +44,7 @@ public class ServerThread extends Thread {
             serverSocket.close();
             super.interrupt();
         } catch (IOException ex) {
-            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientSearchThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

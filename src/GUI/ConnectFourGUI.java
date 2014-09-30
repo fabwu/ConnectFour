@@ -4,7 +4,7 @@ import GameControl.GameControl;
 import GameModel.GameModel;
 import Player.LocalPlayer;
 import Player.NetPlayer.ClientThread;
-import Player.NetPlayer.ServerThread;
+import Player.NetPlayer.ClientSearchThread;
 import Player.Player;
 import java.awt.Color;
 import java.awt.Component;
@@ -529,7 +529,7 @@ public class ConnectFourGUI extends javax.swing.JFrame implements Observer {
      * @param evt
      */
     private void jMenuItemServerActionPerformed(java.awt.event.ActionEvent evt) {
-        final ServerThread serverThread = new ServerThread();
+        final ClientSearchThread serverThread = new ClientSearchThread();
 
         final WaitForOtherPlayerDialog dialog = new WaitForOtherPlayerDialog(this, "Auf Spieler warten...");
 
