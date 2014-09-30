@@ -76,11 +76,12 @@ public class ServerPlayer extends Player implements Observer {
     public void update(Observable o, Object arg) {
         //Aktuelle Matrix an den Client schicken
         GameModel tempModel = (GameModel) o;
-
+        
         try {
             out.reset();
             out.writeObject(tempModel);
             out.flush();
+            System.out.println("Model gesendet");
         } catch (IOException ex) {
             Logger.getLogger(ServerPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -88,7 +89,6 @@ public class ServerPlayer extends Player implements Observer {
 
     @Override
     public void invalidMove() {
-
     }
 
     @Override

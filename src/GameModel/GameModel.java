@@ -59,6 +59,11 @@ public class GameModel extends Observable implements Serializable {
 
         this.actualPlayer = player1;
         notifyObservers();
+
+        draw = false;
+        invalid = false;
+        won = false;
+        lose = false;
     }
 
     /**
@@ -78,6 +83,11 @@ public class GameModel extends Observable implements Serializable {
 
         this.actualPlayer = actualPlayer;
         notifyObservers();
+
+        draw = false;
+        invalid = false;
+        won = false;
+        lose = false;
     }
 
     /**
@@ -86,10 +96,10 @@ public class GameModel extends Observable implements Serializable {
      * @param col Spalte in welche der Stien eingefügt wird
      * @throws InvalidMoveException
      */
-    public void insertCellContent(int col) throws InvalidMoveException , DrawException, GameOverException{
+    public void insertCellContent(int col) throws InvalidMoveException, DrawException, GameOverException {
         validateColumn(col);
         int row = getRowToInsert(col);
-        
+
         setChanged();
         matrix[row][col] = actualPlayer.getId();
         notifyObservers();
@@ -215,14 +225,14 @@ public class GameModel extends Observable implements Serializable {
 
     //PRIVATE METHODS-----------------------------------------------------------
     /**
-     * Prüft ob der Spielzug in der Spalte gültig ist (Spalte nicht voll + Spalte
-     * im Range)
+     * Prüft ob der Spielzug in der Spalte gültig ist (Spalte nicht voll +
+     * Spalte im Range)
      *
      * @param rowToInsert Welche Reihe soll auf gültigkeit überprüft werden
      * @return True wenn der Zug gültig ist. False wenn der Zug ungültig ist.
      */
-    private void validateColumn(int column) throws InvalidMoveException {              
-        if (column < 0 | column > (colLength - 1) | matrix[0][column]!= 0) {
+    private void validateColumn(int column) throws InvalidMoveException {
+        if (column < 0 | column > (colLength - 1) | matrix[0][column] != 0) {
             throw new InvalidMoveException();
         }
     }

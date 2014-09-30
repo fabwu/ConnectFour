@@ -264,6 +264,7 @@ public class GameControl implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 gamemodel.insertCellContent(gamemodel.getActualPlayer().getNextMove());
+                gamemodel.setInvalid(false);
                 gamemodel.changePlayer();
             } catch (InvalidMoveException ex) {
                 gamemodel.setInvalid(true);
