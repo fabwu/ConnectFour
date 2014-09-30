@@ -13,6 +13,7 @@ import java.util.Observable;
  * @author R. Ritter <reto.ritter@stud.hslu.ch>
  * @author D. Niederberger <david.niederberger@stud.hslu.ch>
  * @author F. Wüthrich <fabian.wuethrich.01@stud.hslu.ch>
+ * @author S. Erni <simon.erni@stud.hslu.ch>
  *
  * @version 1.0
  */
@@ -85,11 +86,10 @@ public class GameModel extends Observable implements Serializable {
      * @param col Spalte in welche der Stien eingefügt wird
      * @throws InvalidMoveException
      */
-    public void insertCellContent(int col) throws InvalidMoveException {
+    public void insertCellContent(int col) throws InvalidMoveException , DrawException, GameOverException{
+        validateColumn(col);
         int row = getRowToInsert(col);
-
-        validateRow(row);
-
+        
         setChanged();
         matrix[row][col] = actualPlayer.getId();
         notifyObservers();
@@ -101,9 +101,9 @@ public class GameModel extends Observable implements Serializable {
     /**
      * Prüft das Spiel auf Unentschieden
      */
-    public void checkDraw() {
-        for (int row = 0; row < 6; row++) {
-            for (int col = 0; col < 7; col++) {
+    private void checkDraw() throws DrawException {
+        for (int row = 0; row < rowLength; row++) {
+            for (int col = 0; col < colLength; col++) {
                 if (matrix[row][col] == 0) {
                     return;
                 }
@@ -120,7 +120,7 @@ public class GameModel extends Observable implements Serializable {
      * @param row Zeile des Zuletzt eingefügten Steins
      * @throws GameOverException
      */
-    public void checkVictory(int col, int row) throws GameOverException {
+    private void checkVictory(int col, int row) throws GameOverException {
         if (Victory.isVictory(this.matrix, row, col, this.winLimit, this.actualPlayer.getId())) {
             throw new GameOverException();
         }
@@ -132,7 +132,7 @@ public class GameModel extends Observable implements Serializable {
      * @param column Spalte welche untersucht werden soll
      * @return Reihe in welcher der Spielstein zu liegen kommt
      */
-    public int getRowToInsert(int column) {
+    private int getRowToInsert(int column) {
         //Lokale Variable um die Einzufügende Zeile zu ermitteln (Initialisiert auf die unterste Reihe)
         int rowToInsert = 5;
 
@@ -140,6 +140,8 @@ public class GameModel extends Observable implements Serializable {
         for (int i = 5; i >= 0; i--) {
             if (matrix[i][column] != 0) {
                 rowToInsert = i - 1;
+            } else {
+                break;
             }
         }
         return rowToInsert;
@@ -212,14 +214,15 @@ public class GameModel extends Observable implements Serializable {
     }
 
     //PRIVATE METHODS-----------------------------------------------------------
-    /*
-     * Prüft ob der Spielzug in der Spalte gültig ist
+    /**
+     * Prüft ob der Spielzug in der Spalte gültig ist (Spalte nicht voll + Spalte
+     * im Range)
      *
      * @param rowToInsert Welche Reihe soll auf gültigkeit überprüft werden
      * @return True wenn der Zug gültig ist. False wenn der Zug ungültig ist.
      */
-    private void validateRow(int row) throws InvalidMoveException {
-        if (row < 0) {
+    private void validateColumn(int column) throws InvalidMoveException {              
+        if (column < 0 | column > (colLength - 1) | matrix[0][column]!= 0) {
             throw new InvalidMoveException();
         }
     }
